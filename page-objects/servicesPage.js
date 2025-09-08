@@ -33,6 +33,7 @@ class ServicesPage extends BasePage {
    */
   async createService(name, url) {
     await this.fillInput(this.serviceNameInput, name);
+    await this.serviceUrlInput.fill('');
     await this.fillInput(this.serviceUrlInput, url);
     await this.click(this.saveServiceButton);
   }

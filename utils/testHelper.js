@@ -27,6 +27,13 @@ function generateServiceName() {
 function generateRouteName() {
   return `route-${generateRandomString()}-${Date.now().toString().slice(-4)}`;
 }
+/**
+ * 生成随机路由名称
+ * @returns {string} 随机路由名称
+ */
+function generateRandomUrl() {
+  return `http://${generateRandomString()}.example.com`;
+}
 
 /**
  * 等待指定时间
