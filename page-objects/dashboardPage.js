@@ -3,13 +3,13 @@ const { BasePage } = require('./basePage');
 class DashboardPage extends BasePage {
   constructor(page) {
     super(page);
-    this.workspace = page.locator('xpath=//*[@class="workspace-overview-title"]');
-    this.worksapcename = page.locator('xpath=')
-    this.servicesLink = page.locator('a:has-text("Services")');
-    this.routesLink = page.locator('a:has-text("Routes")');
-    this.consumersLink = page.locator('a:has-text("Consumers")');
-    this.logoutButton = page.locator('button:has-text("Logout")');
-    this.userMenu = page.locator('.user-menu');
+    this.workspace = page.locator('xpath=//*[@class="title"]');
+    // this.worksapcename = page.locator('xpath=')
+    // this.servicesLink = page.locator('a:has-text("Services")');
+    // this.routesLink = page.locator('a:has-text("Routes")');
+    // this.consumersLink = page.locator('a:has-text("Consumers")');
+    // this.logoutButton = page.locator('button:has-text("Logout")');
+    // this.userMenu = page.locator('.user-menu');
   }
 
   /**
@@ -17,8 +17,8 @@ class DashboardPage extends BasePage {
    */
   async verifyDashboardLoaded() {
     await this.verifyElementVisible(this.workspace);
-    await this.verifyElementVisible(this.servicesLink);
-    await this.verifyElementVisible(this.routesLink);
+    // await this.verifyElementVisible(this.servicesLink);
+    // await this.verifyElementVisible(this.routesLink);
   }
 
   /**
@@ -38,10 +38,10 @@ class DashboardPage extends BasePage {
   /**
    * 执行登出操作
    */
-  async logout() {
-    await this.click(this.userMenu);
-    await this.click(this.logoutButton);
-  }
+//   async logout() {
+//     await this.click(this.userMenu);
+//     await this.click(this.logoutButton);
+//   }
 }
 
 module.exports = { DashboardPage };

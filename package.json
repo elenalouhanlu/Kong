@@ -1,0 +1,16 @@
+{
+  "name": "kong-ui-tests",
+  "version": "1.0.0",
+  "description": "Kong API网关UI自动化测试框架）",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "dotenv": "^16.3.1",
+    "path": "^0.12.7"
+  }
+}
