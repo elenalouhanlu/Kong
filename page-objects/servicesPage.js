@@ -3,8 +3,8 @@ const { BasePage } = require('./basePage');
 class ServicesPage extends BasePage {
   constructor(page) {
     super(page);
-    this.pageTitle = page.locator('h1:has-text("Services")');
-    this.addServiceButton = page.locator('button:has-text("Add Service")');
+    this.pageTitle = page.locator('h1:has-text("Gateway Services")');
+    this.addServiceButton = page.locator('button:has-text(" New gateway service")');
     this.serviceNameInput = page.locator('input[name="name"]');
     this.serviceUrlInput = page.locator('input[name="url"]');
     this.saveServiceButton = page.locator('button:has-text("Save")');

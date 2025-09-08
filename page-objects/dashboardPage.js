@@ -4,12 +4,11 @@ class DashboardPage extends BasePage {
   constructor(page) {
     super(page);
     this.workspace = page.locator('xpath=//*[@class="title"]');
-    // this.worksapcename = page.locator('xpath=')
-    // this.servicesLink = page.locator('a:has-text("Services")');
-    // this.routesLink = page.locator('a:has-text("Routes")');
-    // this.consumersLink = page.locator('a:has-text("Consumers")');
-    // this.logoutButton = page.locator('button:has-text("Logout")');
-    // this.userMenu = page.locator('.user-menu');
+    this.servicesLink = page.locator('a:has-text("Services")');
+    this.routesLink = page.locator('a:has-text("Routes")');
+    this.consumersLink = page.locator('a:has-text("Consumers")');
+    this.logoutButton = page.locator('button:has-text("Logout")');
+    this.userMenu = page.locator('.user-menu');
   }
 
   /**

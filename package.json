@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
+    "test:chromium": "cross-env BROWSER=chromium playwright test",
+    "test:firefox": "cross-env BROWSER=firefox playwright test",
+    "test:webkit": "cross-env BROWSER=webkit playwright test",
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "dotenv": "^16.3.1",
+    "cross-env": "^7.0.3",
     "path": "^0.12.7"
   }
 }

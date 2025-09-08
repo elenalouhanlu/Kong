@@ -7,6 +7,32 @@ require('dotenv').config();
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+// 从.env文件获取浏览器配置，默认运行所有浏览器
+const selectedBrowser = process.env.BROWSER?.toLowerCase();
+const validBrowsers = ['chromium', 'firefox', 'webkit'];
+const isBrowserValid = selectedBrowser && validBrowsers.includes(selectedBrowser);
+
+const projects = isBrowserValid 
+  ? [
+      {
+        name: selectedBrowser,
+        use: { ...devices[`Desktop ${selectedBrowser.charAt(0).toUpperCase() + selectedBrowser.slice(1)}`] },
+      }
+    ]
+  : [
+      {
+        name: 'chromium',
+        use: { ...devices['Desktop Chrome'] },
+      },
+      {
+        name: 'firefox',
+        use: { ...devices['Desktop Firefox'] },
+      },
+      {
+        name: 'webkit',
+        use: { ...devices['Desktop Safari'] },
+      },
+    ];
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -36,7 +62,7 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'
   },
-
+  
   /* Configure projects for major browsers */
   projects: [
     {
@@ -74,6 +100,8 @@ module.exports = defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+
+  
 
   /* Run your local dev server before starting the tests */
   // webServer: {
