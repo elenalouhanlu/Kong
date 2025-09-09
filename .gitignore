@@ -1,2 +1,37 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Playwright test output
 test-results/
-playwright-report
+playwright-report/
+*.log
+
+# VS Code
+.vscode/
+.history/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.*
+
+# Coverage
+coverage/
+*.lcov
+
+# Output
+dist/
+build/
+
+# Misc
+*.sublime-workspace
+*.sublime-project
+.idea/

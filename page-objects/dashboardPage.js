@@ -3,24 +3,23 @@ const { BasePage } = require('./basePage');
 class DashboardPage extends BasePage {
   constructor(page) {
     super(page);
-    this.workspace = page.locator('xpath=//*[@class="title"]');
+    this.overview = page.locator('xpath=//span[@class="title" and text()="Overview"]');
     this.servicesLink = page.locator('a:has-text("Gateway Services")');
     this.routesLink = page.locator('a:has-text("Routes")');
     this.consumersLink = page.locator('a:has-text("Consumers")');
-    this.logoutButton = page.locator('button:has-text("Logout")');
-    this.userMenu = page.locator('.user-menu');
+    this.pluginsLink = page.locator('a:has-text("Plugins")');
   }
 
   
   /**
-   * 验证仪表盘页面是否加载
+   * Verfiry dashboard page is loaded
    */
 
   
   async verifyDashboardLoaded() {
-    await this.verifyElementVisible(this.workspace);
-    // await this.verifyElementVisible(this.servicesLink);
-    // await this.verifyElementVisible(this.routesLink);
+    await this.verifyElementVisible(this.overview);
+    await this.verifyElementVisible(this.servicesLink);
+    await this.verifyElementVisible(this.routesLink);
   }
 
   /**

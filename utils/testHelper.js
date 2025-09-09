@@ -48,5 +48,6 @@ module.exports = {
   generateRandomString,
   generateServiceName,
   generateRouteName,
+  generateRandomUrl,
   waitFor
 };
