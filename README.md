@@ -19,8 +19,8 @@ Quick Start
 1. Clone the Project & Install Dependencies
 bash
 # Clone the repository (replace with your actual repo URL)
-git clone https://github.com/your-org/kong-automation-test.git
-cd kong-automation-test
+git clone https://github.com/elenalouhanlu/Kong.git
+cd Kong
 
 # Install core dependencies
 npm install
