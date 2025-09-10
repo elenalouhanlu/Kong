@@ -36,13 +36,6 @@ class DashboardPage extends BasePage {
     await this.click(this.routesLink);
   }
 
-  /**
-   * 执行登出操作
-   */
-//   async logout() {
-//     await this.click(this.userMenu);
-//     await this.click(this.logoutButton);
-//   }
 }
 
 module.exports = { DashboardPage };

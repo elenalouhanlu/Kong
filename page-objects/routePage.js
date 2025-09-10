@@ -14,6 +14,13 @@ class RoutePage extends BasePage {
     this.methodOption = (method) => page.locator(`xpath=//button[@value="${method}"]`);
     this.successMessage = page.locator('xpath=//div[contains(text(), "Route created successfully")]');
     this.RoutesTab = page.locator('xpath=//div[@data-testid="service-routes"]');
+    this.RouteActionbutton= page.locator(`xpath=//button[@data-testid="header-actions"]`);
+    this.RouteName= (routeName) => page.locator(`xpath=//tr[@data-testid="${routeName}"]//td[@data-testid="name"]`);
+    this.editRouteButton =  page.locator('xpath=//button[@data-testaction="action-edit"]');
+    this.editsubmitButton = page.locator('xpath=//button[@data-testid="route-edit-form-submit"]');
+    this.deleteRouteButton =  page.locator('xpath=//button[@data-testaction="action-delete"]');
+    this.configurationName = page.locator('xpath=//*[@data-testid="name-property-value"]');
+    this.configurationpath = page.locator('xpath=//*[@data-testid="paths-copy-uuid-0"]//div//div[@class="copy-text"]');
   }
 
     async verifyRoutePageLoaded() {
@@ -22,116 +29,151 @@ class RoutePage extends BasePage {
   }
 
     async selectMethods(methods) {
-    // 打开方法下拉框
+    // select dropdown
     await this.click(this.methodsDropdown);
     
-    // 选择每个方法
+    // select each method
     for (const method of methods) {
       const option = this.methodOption(method);
       await this.click(option);
     }
     
-    // 点击页面空白处关闭下拉框
+    // close dropdown by clicking outside
     await this.page.click('xpath=//body');
   }
   /**
    * add route in service page
-//   @param {string} serviceName - 服务名称
-   * @param {string} routeName - 路由名称
-   * @param {string} path - 路由路径（如/api/*）
-   * @param {string} method- method
+//   @param {string} serviceName 
+   * @param {string} routeName 
+   * @param {string} path 
+   * @param {string} method-
    */
   async addRoutefromService(routeName,path,method) {
 
     await this.click(this.RoutesTab);
     
     await this.click(this.addRoutefromServiceButton);
-    // 填写路由名称
+    // fill route name
     await this.routeNameInput.fill(routeName);
     
-    // 填写路由路径
+    // fill path
     await this.pathInput.fill(path);
     //add methods 
-    // 选择HTTP方法
     await this.selectMethods(method);
 
     await this.click(this.submitButton);
   }
 async clickAddRoute() {
     await this.click(this.addRouteButton);
-    // 等待表单加载
+    // verify the add route form is displayed
     await this.verifyElementVisible(this.routeNameInput);
   }
 
   /**
-   * 创建新路由
-   * @param {string} routeName - 路由名称
-   * @param {string} path - 路由路径（如/api/*）
-   * @param {string} serviceName - 关联的服务名称
-   * @param {string} method- method
+   * create new route
+   * @param {string} routeName 
+   * @param {string} path  
+   * @param {string} serviceName 
+   * @param {string} method
    */
   async createRoute(routeName, path, serviceName) {
-    // 填写路由名称
+    // fill route name
     await this.routeNameInput.fill(routeName);
     
-    // 填写路由路径
+    //  fill path
     await this.pathInput.fill(path);
     
-    // 选择关联服务（通过服务名称筛选选项）
+    //    select service
     await this.serviceSelect.selectOption({ label: serviceName });
+
+    //add methods 
+    await this.selectMethods(method);
     
-    // 提交表单
+    // submit
     await this.click(this.submitButton);
+  }
+
+    /**
+   * edit existing route
+    * @param {string} routeName\
+    * @param {string} newPath
+   */
+  async editRoute(routeName, newPath) {
+    // locate the action button for the specific route
+    const NameClick = this.RouteName(routeName);
+    await this.click(NameClick);
+    await this.click(this.RouteActionbutton)
+    await this.click(this.editRouteButton);
     
-    // // 验证创建成功
-    // await this.verifyElementVisible(this.successMessage);
+    // wait for the edit form to be visible
+    await this.verifyElementVisible(this.pathInput);
+    // clear and fill new path
+    await this.pathInput.fill('');
+    await this.pathInput.fill(newPath);
+    
+    // submit the form
+    await this.click(this.editsubmitButton);
+
+  
+  }
+
+    /**
+   * edit existing route
+    * @param {string} routeName\
+    * @param {string} newPath
+   */
+  async editRouteVerify(routeName, newPath) {
+    //verify name locator return namevalue
+    await this.verifyElementText(this.configurationName, routeName);
+    await this.verifyElementText(this.configurationpath, newPath);
+  
   }
 
   /**
-   * 验证路由是否存在于列表中
-   * @param {string} routeName - 路由名称
+   * verify if route exists in the list
+   * @param {string} routeName 
    */
   async verifyRouteExists(routeName) {
-    const routeRow = this.page.locator(`xpath=//tr[@data-testid="${routeName}"]//td[@data-testid="name"]`);
+    const routeRow = this.page.locator(`xpath=//tr[@data-testid="${routeName}"]//td[@data-testid="actions"]`);
     await this.verifyElementVisible(routeRow);
   }
 
   /**
-   * 通过Kong Admin API验证路由是否创建成功
-   * @param {string} routeName - 路由名称
-   * @param {string[]} expectedMethods - 预期的HTTP方法
-   * @param {string} expectedPath - 预期的路由路径
-   * @returns {Promise<boolean>} 验证结果
+   * use kong admin api to verify route configuration
+   * @param {string} routeName 
+   * @param {string[]} expectedMethods 
+   * @param {string} expectedPath 
+   * @returns {Promise<boolean>} 
    */
   async verifyRouteViaApi(routeName, expectedMethods, expectedPath) {
-    // 从环境变量获取Admin API地址（默认8001端口）
+    // call kong admin api to get route details
     const adminApiUrl = process.env.KONG_ADMIN_URL || 'http://localhost:8001';
     
     try {
-      // 调用Kong Admin API查询所有路由
+      // use fetch to call kong admin api
       const response = await fetch(`${adminApiUrl}/routes`);
       const data = await response.json();
 
-      // 查找目标路由
+      // find the route by name
       const targetRoute = data.data.find(route => route.name === routeName);
       if (!targetRoute) {
-        throw new Error(`API验证失败：未找到名称为${routeName}的路由`);
+        throw new Error(`api fail：not found${routeName}`);
       }
 
-      // 验证路由核心配置
+      // verify path and methods
       if (!targetRoute.paths.includes(expectedPath)) {
-        throw new Error(`API验证失败：路由路径不匹配，实际: ${targetRoute.paths}, 预期: ${expectedPath}`);
+        throw new Error(`api fail：route not match，actual: ${targetRoute.paths}, expected: ${expectedPath}`);
       }
 
       if (!expectedMethods.every(method => targetRoute.methods.includes(method))) {
-        throw new Error(`API验证失败：HTTP方法不匹配，实际: ${targetRoute.methods}, 预期: ${expectedMethods}`);
+        throw new Error(`api fail：HTTP method not match，actual: ${targetRoute.methods}, expected: ${expectedMethods}`);
       }
 
-      console.log(`API验证成功：路由${routeName}配置正确`);
+      console.log(`API success：route ${routeName}correct`);
       return true;
     } catch (error) {
-      console.error(`API验证出错：${error.message}`);
-      throw error; // 抛出错误使测试失败
+      console.error(`API verify fail：${error.message}`);
+      throw error;
     }
   }
 

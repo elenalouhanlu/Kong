@@ -14,17 +14,5 @@ test.describe('dashboard test', () => {
     await dashboardPage.verifyDashboardLoaded();
   });
 
-  // test('Service page loading', async () => {
-  //   await dashboardPage.verifyDashboardLoaded();
-  //   await dashboardPage.goToServices();
-  //   // 验证导航成功
-  //   await expect(ServicesPage.pageTitl).toBeVisible();
-  // });
-
-  // test('从仪表盘导航到路由页面', async () => {
-  //   await dashboardPage.verifyDashboardLoaded();
-  //   await dashboardPage.goToRoutes();
-  //   // 验证导航成功
-  //   await expect(page.locator('xpath=//h1[text()="Routes"]')).toBeVisible();
-  // });
+ //test other UI pages
 });

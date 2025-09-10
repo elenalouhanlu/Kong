@@ -66,15 +66,6 @@ class ServicesPage extends BasePage {
     // save changes
     await this.click(this.saveServiceButton);
   }
-
-  // /**
-  //  * verify service created successfully
-  //  * @param {string} serviceName - 服务名称
-  //  */
-  // async verifyServiceExists(serviceName) {
-  //   const serviceItem = this.serviceList.locator(`.service-item:has-text("${serviceName}")`);
-  //   await this.verifyElementVisible(serviceItem);
-  // }
   /**
    * verify service created successfully
    * @param {string} serviceName - 服务名称
