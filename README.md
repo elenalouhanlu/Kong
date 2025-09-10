@@ -51,13 +51,13 @@ Tests are organized by module. You can run tests for a specific module or all te
 3.1 Run Tests by Module
 bash
 # 1. Run Service Management tests
-npx playwright test tests/services/
+npx playwright test tests/service/
 
 # 2. Run Route Management tests
 npx playwright test tests/routes/
 
 # 3. Run Rate Limiting Plugin tests
-npx playwright test tests/plugins/rate-limiting.test.js
+npx playwright test tests/plugins/plugin.test.js
 3.2 Run All Tests
 bash
 npx playwright test
@@ -91,13 +91,13 @@ kong-automation-test/
 │   ├── RoutePage.js    # Route page object (create/associate services/select methods)
 │   └── PluginPage.js   # Plugin page object (add/verify rate-limiting)
 ├── tests/              # Test cases (organized by module)
-│   ├── services/       # Service Management test cases
-│   ├── routes/         # Route Management test cases
+│   ├── service/       # Service Management test cases
+│   ├── route/         # Route Management test cases
 │   └── plugins/        # Plugin Management test cases
-│       └── rate-limiting.test.js # Rate Limiting Plugin tests
+│       └── plugin.test.js # Rate Limiting Plugin tests
 └── utils/              # Utility functions
     ├── kongAdminApi.js # Kong Admin API wrapper (service/route/plugin operations)
-    └── testHelpers.js  # Test helpers (generate random names, data, etc.)
+    └── testHelper.js  # Test helpers (generate random names, data, etc.)
 Key Module Usage Guide
 1. Page Object Model (POM)
 All UI operations are encapsulated in the page-objects/ directory. Examples:
