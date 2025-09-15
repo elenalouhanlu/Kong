@@ -54,7 +54,7 @@ bash
 npx playwright test tests/service/
 
 # 2. Run Route Management tests
-npx playwright test tests/routes/
+npx playwright test tests/route/
 
 # 3. Run Rate Limiting Plugin tests
 npx playwright test tests/plugins/plugin.test.js
@@ -64,7 +64,7 @@ npx playwright test
 3.3 Run Tests in Debug Mode (Pause & Inspect Pages)
 bash
 # Debug Route tests
-npx playwright test tests/routes/ --debug
+npx playwright test tests/route/ --debug
 4. View Test Reports
 After test execution, an HTML report is automatically generated. Open it with:
 

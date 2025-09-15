@@ -94,6 +94,7 @@ class ServicesPage extends BasePage {
     await expect(serviceItem).toHaveCount(0);
   }
 
-}
 
+ 
+}
 module.exports = { ServicesPage };

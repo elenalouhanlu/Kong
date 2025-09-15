@@ -231,6 +231,22 @@ async function serviceExists(serviceName) {
   }
 }
 
+async function verifyServiceviaApi(serviceName, servicehost) {
+    const serviceDetails = await getService(serviceName);
+    expect(serviceDetails.name).toBe(serviceName);
+    expect(serviceDetails.host).toBe(servicehost);
+    expect(serviceDetails.created_at).toBeDefined();
+  }
+
+async function waitForServiceDeleted(name, timeout=5000) {
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    const exists = await getService(name).catch(() => null);
+    if (!exists) return;
+    await new Promise(res => setTimeout(res, 500));
+  }
+  throw new Error(`Service ${name} was not deleted in time`);
+}
 module.exports = {
   getService,
   deleteService,
@@ -240,4 +256,6 @@ module.exports = {
   deleteRoute,
   deletePlugin,
   requestApi,
+  waitForServiceDeleted,
+  verifyServiceviaApi
 };
