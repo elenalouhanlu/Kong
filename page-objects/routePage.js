@@ -1,4 +1,5 @@
 const { BasePage } = require('./basePage');
+const { expect } = require('@playwright/test');
 
 class RoutePage extends BasePage {
   constructor(page) {
@@ -21,6 +22,8 @@ class RoutePage extends BasePage {
     this.deleteRouteButton =  page.locator('xpath=//button[@data-testaction="action-delete"]');
     this.configurationName = page.locator('xpath=//*[@data-testid="name-property-value"]');
     this.configurationpath = page.locator('xpath=//*[@data-testid="paths-copy-uuid-0"]//div//div[@class="copy-text"]');
+    this.confirmInput = page.locator('xpath=//input[@data-testid="confirmation-input"]');
+    this.confirmButton = page.locator('xpath=//button[@data-testid="modal-action-button"]');
   }
 
     async verifyRoutePageLoaded() {
@@ -116,9 +119,29 @@ async clickAddRoute() {
 
   
   }
+      /**
+   * delete existing route
+    * @param {string} routeName
+   */
+  async deleteRoute(routeName) {
+    // locate the action button for the specific route
+    const NameClick = this.RouteName(routeName);
+    await this.click(this.RouteActionbutton)
+    await this.click(this.deleteRouteButton);
+    // wait for the confirmation dialog to be visible
+    await this.verifyElementVisible(this.confirmInput);
+    // fill in the confirmation input
+    await this.fillInput(this.confirmInput, routeName);
+    // click the confirm button
+    await this.click(this.confirmButton);
+    // confirm deletion
+    await expect(NameClick).toHaveCount(0);
+  }
+
+
 
     /**
-   * edit existing route
+   * edit verify existing route
     * @param {string} routeName\
     * @param {string} newPath
    */

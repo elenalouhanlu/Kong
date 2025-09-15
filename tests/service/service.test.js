@@ -9,16 +9,16 @@ test.describe('Gateway Service test', () => {
   let dashboardPage;
   let servicePage;
   let routePage;
-  let serviceName,NewServiceName,serviceUrl,newServiceUrl,servicehost,newServicehost,routeName,routePath,testMethods;//make these variables unique in each test run
-  serviceName = generateServiceName();
-  NewServiceName = generateServiceName();
-  serviceUrl = generateRandomUrl();
-  newServiceUrl = generateRandomUrl();
-  servicehost = serviceUrl.replace('http://', '').replace('https://', '');
-  newServicehost = newServiceUrl.replace('http://', '').replace('https://', '');
-  routeName = generateRouteName();    
-  routePath = `/api/${generateRandomString()}`; 
-  testMethods = ['GET', 'POST', 'PUT'];
+
+  const serviceName = generateServiceName();
+  const NewServiceName = generateServiceName();
+  const serviceUrl = generateRandomUrl();
+  const newServiceUrl = generateRandomUrl();
+  const servicehost = serviceUrl.replace('http://', '').replace('https://', '');
+  const newServicehost = newServiceUrl.replace('http://', '').replace('https://', '');
+  const routeName = generateRouteName();
+  const routePath = `/api/${generateRandomString()}`;
+  const testMethods = ['GET', 'POST', 'PUT'];
 
   test.beforeEach(async ({ page }) => {
     // navigate to dashbord

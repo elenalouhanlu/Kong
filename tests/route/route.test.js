@@ -47,6 +47,8 @@ test.describe('Route test', () => {
     //verify route edited in ui
     await routePage.editRouteVerify(routeName,newRoutePath);
     await routePage.verifyRouteViaApi(routeName, testMethods, newRoutePath);
+    //delete route in ui
+    await routePage.deleteRoute(routeName);
   });
 
    test.afterEach(async () => {
