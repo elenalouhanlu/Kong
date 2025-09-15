@@ -1,5 +1,6 @@
 const { BasePage } = require('./basePage');
 const { expect } = require('@playwright/test');
+const { getService, deleteService,waitForServiceDeleted} = require('../utils/kongAdminApi'); 
 
 class ServicesPage extends BasePage {
   constructor(page) {
@@ -74,6 +75,13 @@ class ServicesPage extends BasePage {
   async verifyServiceCreated(serviceName,servicehost) {
     await this.verifyElementText(this.configureName, serviceName);
     await this.verifyElementText(this.configureHost, servicehost);
+  }
+  
+  async verifyServiceviaApi(serviceName, servicehost) {
+    const serviceDetails = await getService(serviceName);
+    expect(serviceDetails.name).toBe(serviceName);
+    expect(serviceDetails.host).toBe(servicehost);
+    expect(serviceDetails.created_at).toBeDefined();
   }
 
   /**

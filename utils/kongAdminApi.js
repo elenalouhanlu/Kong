@@ -231,13 +231,6 @@ async function serviceExists(serviceName) {
   }
 }
 
-async function verifyServiceviaApi(serviceName, servicehost) {
-    const serviceDetails = await getService(serviceName);
-    expect(serviceDetails.name).toBe(serviceName);
-    expect(serviceDetails.host).toBe(servicehost);
-    expect(serviceDetails.created_at).toBeDefined();
-  }
-
 async function waitForServiceDeleted(name, timeout=5000) {
   const start = Date.now();
   while (Date.now() - start < timeout) {
@@ -257,5 +250,4 @@ module.exports = {
   deletePlugin,
   requestApi,
   waitForServiceDeleted,
-  verifyServiceviaApi
 };

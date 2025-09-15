@@ -3,7 +3,7 @@ const { DashboardPage } = require('../../page-objects/dashboardPage');
 const { ServicesPage } = require('../../page-objects/servicesPage');
 const { RoutePage } = require('../../page-objects/routePage');
 const { generateServiceName, generateRandomUrl,generateRouteName,generateRandomString } = require('../../utils/testHelper');
-const { getService, deleteService,waitForServiceDeleted,verifyServiceviaApi} = require('../../utils/kongAdminApi'); 
+const { getService, deleteService,waitForServiceDeleted} = require('../../utils/kongAdminApi'); 
 
 test.describe('Gateway Service test', () => {
   let dashboardPage;
@@ -41,13 +41,13 @@ test.describe('Gateway Service test', () => {
     // verify in UI
     await servicePage.verifyServiceCreated(serviceName, servicehost);
     //Verify service via API
-    await verifyServiceviaApi(serviceName, servicehost);
+    await servicePage.verifyServiceviaApi(serviceName, servicehost);
     //edit service
     await servicePage.editService(newServicehost,NewServiceName);
     //verify service edited in UI
     await servicePage.verifyServiceCreated(NewServiceName,newServicehost);
     //Verify in api
-    await verifyServiceviaApi(NewServiceName, newServicehost);
+    await servicePage.verifyServiceviaApi(NewServiceName, newServicehost);
     //delete service
     await servicePage.deleteService(NewServiceName);
     //wait for sometime for deletion to reflect
