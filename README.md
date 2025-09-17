@@ -1,16 +1,16 @@
-Kong API Gateway Automation Test Framework
+# Kong API Gateway Automation Test Framework
 Project Overview
 This framework is built on Playwright and focuses on automated testing for core functionalities of the Kong API Gateway. It covers key modules including Services, Routes, and Plugins (e.g., Rate Limiting). Designed with the Page Object Model (POM) pattern, the framework supports dual verification (UI operations + Kong Admin API) and automatic resource cleanup to ensure a clean test environment and stable, reusable test cases.
-Core Features
+# Core Features
 Module	Supported Functionalities
-Service Management	Create, query, update, delete services; verify service configuration consistency via API
-Route Management	Create (service association + HTTP method selection), query, delete routes; validate route matching rules
-Plugin Management	Add/remove rate-limiting plugins for services; verify plugin effectiveness (429 responses)
-Dual Verification	Combine UI verification (display/alerts) and Admin API verification (actual configurations) for reliability
-Auto Cleanup	Automatically delete associated plugins → routes → services after tests to avoid residual data impacting subsequent runs
-Environment Adaptation	Configure Kong addresses for different environments (dev/test/prod) via .env for flexible switching
-Retry Mechanism	Auto-retry for resource loading delays (e.g., initial 404 errors) to reduce flaky failures
-Prerequisites
+1. Service Management	Create, query, update, delete services; verify service configuration consistency via API
+2. Route Management	Create (service association + HTTP method selection), query, delete routes; validate route matching rules
+3. Plugin Management	Add/remove rate-limiting plugins for services; verify plugin effectiveness (429 responses)
+4. Dual Verification	Combine UI verification (display/alerts) and Admin API verification (actual configurations) for reliability
+5. Auto Cleanup	Automatically delete associated plugins → routes → services after tests to avoid residual data impacting subsequent runs
+6. Environment Adaptation	Configure Kong addresses for different environments (dev/test/prod) via .env for flexible switching
+7. Retry Mechanism	Auto-retry for resource loading delays (e.g., initial 404 errors) to reduce flaky failures
+# Prerequisites
 Kong Gateway: Version 2.x or higher (ensure Kong UI and Admin API are accessible)
 Node.js: Version 16.x or higher (required for Playwright support)
 Package Manager: npm 8.x+ or yarn 1.x+
@@ -65,18 +65,22 @@ npx playwright test
 bash
 # Debug Route tests
 npx playwright test tests/route/ --debug
-4. View Test Reports
+# 4. View Test Reports
 After test execution, an HTML report is automatically generated. Open it with:
 
 bash
 npx playwright show-report
+
+# 5. Run case in different browsers
+Chrome: npm run test:chromium
+To change default browser settings update .env file
 
 The report includes:
 
 Test results (passed/failed/skipped)
 Screenshots and videos for failed cases (for troubleshooting)
 Execution time and logs for each step
-Project Directory Structure
+# Project Directory Structure
 plaintext
 kong-automation-test/
 ├── .env                # Environment configuration file (create manually)
@@ -98,7 +102,7 @@ kong-automation-test/
 └── utils/              # Utility functions
     ├── kongAdminApi.js # Kong Admin API wrapper (service/route/plugin operations)
     └── testHelper.js  # Test helpers (generate random names, data, etc.)
-Key Module Usage Guide
+# Key Module Usage Guide
 1. Page Object Model (POM)
 All UI operations are encapsulated in the page-objects/ directory. Examples:
 
@@ -122,7 +126,7 @@ In page-objects/PluginPage.js, add an addCorsPlugin method to encapsulate UI ope
 In utils/kongAdminApi.js, add a verifyCorsPlugin method to encapsulate API verification for the CORS plugin.
 Create cors.test.js in the tests/plugins/ directory and write test cases (refer to rate-limiting.test.js).
 Customize Test Data
-Modify the random generation functions in utils/testHelpers.js, e.g.:
+Modify the random generation functions in utils/testHelper.js, e.g.:
 
 generateServiceName(): Customize the prefix for service names
 generateRoutePath(): Adjust the format of route paths
@@ -141,7 +145,7 @@ Solution: The deleteService method automatically cleans up plugins → routes be
 No screenshots/videos in test reports:
 Cause: Screenshots/videos are only generated for failed cases by default.
 Solution: Modify the screenshot and video configurations in playwright.config.js to 'on'.
-Dependency Versions
+# Dependency Versions
 Dependency	Version Requirement
 @playwright/test	^1.38.0
 node-fetch	^2.6.7
