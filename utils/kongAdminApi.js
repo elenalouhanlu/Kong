@@ -4,6 +4,8 @@ require('dotenv').config();
 // Kong Admin API base url
 const KONG_ADMIN_URL = process.env.KONG_ADMIN_URL || 'http://localhost:8001';
 const API_TIMEOUT = 5000;
+const { testData } = require('./testData');
+const { default: test } = require('@playwright/test');
 const RETRY_CONFIG = {
   maxRetries: process.env.API_RETRY_MAX || 5, 
   retryDelay: process.env.API_RETRY_DELAY || 1000 
@@ -240,6 +242,7 @@ async function waitForServiceDeleted(name, timeout=5000) {
   }
   throw new Error(`Service ${name} was not deleted in time`);
 }
+
 module.exports = {
   getService,
   deleteService,

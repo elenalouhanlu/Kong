@@ -11,7 +11,7 @@ const {
   deletePlugin,
   getRoutesForService,
   deleteRoute,
-  deleteService
+  deleteService,
 } = require('../../utils/kongAdminApi');
 
 test.describe('rate-limiting plugins test', () => {
@@ -64,7 +64,19 @@ test.describe('rate-limiting plugins test', () => {
     console.log('Test URL:', testUrl);
     
      // wait for a short period to ensure the plugin is fully applied
-    await new Promise(res => setTimeout(res, 5000));
+    // await waitForPluginReady(testUrl, 200);
+
+    for (let attempt = 0; attempt <= 5; attempt++) {
+      const response = await page.request.get(testUrl);
+      if (response.status() === 200) {
+        console.log(`Plugin is active after ${attempt} attempts.`);
+        break;
+
+      }
+      console.log(`Plugin not active yet (status: ${response.status()}), retrying...`);
+      await page.waitForTimeout(1000); // wait 1 second before retrying
+    }
+      
     //send 5 requests should be successful
     for (let i = 0; i < rateLimit; i++) {
       const response = await page.request.get(testUrl);
